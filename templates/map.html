@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+
+    <meta charset="UTF-8">
+    <title>Map</title>
+
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+
+     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+
+    <style>
+        #map { height: 750px; }
+    </style>
+
+</head>
+<body>
+ <div id="map"></div>
+
+
+
+</body>
+<script>
+
+
+        var map = L.map('map').setView([41.1020, 29.0212], 14);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+        var canvas=L.canvas({ padding: 1 });
+
+  fetch('/noktalar?n={{ n }}&kumeSayisi={{ kumeSayisi }}')
+    .then(response => response.json())
+    .then(data => {
+      // noktalar değişkenine erişebilirsiniz
+
+        for (var i = 0; i < data.length; i++) {
+        var sepet = data[i];
+
+        var marker = L.circle([sepet.bucket.lat, sepet.bucket.lng], {radius: map.distance([sepet.bucket.lat, sepet.bucket.lng], [sepet.bucket.lat + 0.007, sepet.bucket.lng + 0.007])
+            ,renderer: canvas } ).addTo(map);
+        var noktalar= sepet.noktalar;
+        for (var j =0;j<noktalar.length;j++){
+                    var marker2 = L.circle([noktalar[j].lat, noktalar[j].lng], { radius:1 ,renderer: canvas } ).addTo(map);
+                    marker2.setStyle({ color: 'red' });
+        }
+      }
+
+    });
+
+
+
+    </script>
+</html>
