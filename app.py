@@ -16,8 +16,8 @@ def getNoktalar():
     n = request.args.get('n')
     kumeSayisi= request.args.get('kumeSayisi')
 
-    if n:
-        randomOLustur(int(n))
+
+    randomOLustur(int(n))
 
     data = sepetOlustur(int(kumeSayisi))
     return jsonify(data)
