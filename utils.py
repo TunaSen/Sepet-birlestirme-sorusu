@@ -37,7 +37,7 @@ def sepetOlustur(kumeSayisi):
         closest_centroid = centroids[closest_centroid_idx]
         distance = geodesic((row["longitude"], row["latitude"]), closest_centroid).km
         if distance <= 1:
-            sepetler[closest_centroid_idx].append({"geocode:".encode('utf-8').decode('unicode_escape'):row["geocode"],"lng".encode('utf-8').decode('unicode_escape'):row["longitude"], "lat".encode('utf-8').decode('unicode_escape'):row["latitude"]})
+            sepetler[closest_centroid_idx].append({"geocode:":row["geocode"],"lng".encode('utf-8').decode('unicode_escape'):row["longitude"], "lat":row["latitude"]})
         else:
             print("açıkta kalan",(row["longitude"], row["latitude"]))
             return  sepetOlustur(kumeSayisi+1)
